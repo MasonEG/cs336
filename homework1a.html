@@ -1,0 +1,52 @@
+<!--  Same as GL_example1a but uses a uniform variable in the vertex
+shader to control the left or right shift of the model.  The shift is
+updated in each frame (see the bottom of the main method) to animate
+the model. -->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>1a</title>
+</head>
+
+<body>
+    <div align="center">
+        <canvas id="theCanvas" width="400" height="400">
+        Please use a browser that supports "canvas"
+        </canvas>
+        <p>Scale: <input id="scaleInput" type="text" value="0.1" size=4/> </p>
+        <p>Rate: <input id="rateInput" type="text" value="0.1" size=4/> </p>
+    </div>
+
+
+<script id="vertexShader" type="x-shader/x-vertex">
+precision mediump float;
+attribute vec4 a_Position;
+uniform float shiftX;
+uniform float shiftY;
+void main()
+{
+  // constructs a vec4 from a float and a vec3
+  gl_Position = vec4(a_Position.x + shiftX, a_Position.y + shiftY, a_Position.zw);
+}
+</script>
+<script id="fragmentShader" type="x-shader/x-fragment">
+void main()
+{
+  gl_FragColor = vec4(0.0, 0.0, 1.0, 1.0);
+}
+    </script>
+    <script>
+    var scale = parseFloat(document.getElementById('scaleInput').value);
+    document.getElementById('scaleInput').onchange = () => {
+      scale = parseFloat(document.getElementById('scaleInput').value);
+    };
+    </script>
+    <script src="./cs336util.js"></script>
+    <script src="./homework1a.js"></script>
+    <script>
+    window.onload = main;
+    </script>
+</body>
