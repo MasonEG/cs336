@@ -8,10 +8,11 @@
  */
 function Color(r, g, b, a)
 {
-	this.r = (r ? r : 0.0);
-	this.g = (g ? g : 0.0);
-	this.b = (b ? b : 0.0);
-	this.a = (a ? a : 1.0);
+	// this.r = (r ? r : 0.0);
+	// this.g = (g ? g : 0.0);
+	// this.b = (b ? b : 0.0);
+    // this.a = (a ? a : 1.0);
+    return {r: r, g: g, b: b, a: a};
 }
 
 /**

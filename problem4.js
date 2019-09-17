@@ -5,25 +5,25 @@
 // raw data for some point positions
 var numPoints = 12;
 var vertices = new Float32Array([
--0.8, -0.3,
--0.8, 0.3,
--0.2, -0.3,
--0.2, -0.3,
--0.2, 0.3,
--0.8, 0.3, //multicolor square
-0.2, -0.3,
-0.2, 0.3,
-0.8, 0.3,
-0.8, 0.3,
-0.8, -0.3,
-0.2, -0.3 //selected color square
+-0.8, -0.6,
+-0.8, 0.6,
+-0.2, -0.6,
+-0.2, -0.6,
+-0.2, 0.6,
+-0.8, 0.6, //multicolor square
+0.2, -0.6,
+0.2, 0.6,
+0.8, 0.6,
+0.8, 0.6,
+0.8, -0.6,
+0.2, -0.6 //selected color square
 ]
 );
 
 // a color value for each vertex
 var colors = new Float32Array([
-1.0, 0.0, 0.0, 1.0,  // red
 0.0, 1.0, 0.0, 1.0,  // green
+1.0, 0.0, 0.0, 1.0,  // red
 0.0, 0.0, 1.0, 1.0,  // blue
 0.0, 0.0, 1.0, 1.0,  // blue
 0.0, 0.0, 0.0, 0.0,  //alpha
@@ -36,6 +36,13 @@ var colors = new Float32Array([
 0.0, 0.0, 1.0, 1.0   // blue
 ]
 );
+
+var colorCorners = [
+  Color(0.0, 1.0, 0.0, 0.0),
+  Color(0.0, 0.0, 1.0, 0.0),
+  Color(0.0, 0.0, 0.0, 1.0),
+  Color(1.0, 0.0, 0.0, 0.0)
+];
 
 
 // A few global variables...
@@ -133,7 +140,7 @@ function main() {
   
   
   // specify a fill color for clearing the framebuffer
-  gl.clearColor(1.0, 1.0, 1.0, 1.0);
+  gl.clearColor(0.4, 0.4, 0.4, 1.0);
   
   // we could just call draw() once to see the result, but setting up an animation
   // loop to continually update the canvas makes it easier to experiment with the 
@@ -143,13 +150,35 @@ function main() {
   // define an animation loop
   var animate = function() {
 	draw();
-	
+  
 	// request that the browser calls animate() again "as soon as it can"
-    requestAnimationFrame(animate); 
+    requestAnimationFrame(animate);
   };
   
   // start drawing!
   animate();
-
-  
 }
+
+function updateColor(newColor) {
+  for(let i = 0; i < 25)
+  let newColorArr = []
+  for(let i = 1; i < 25; i++) {
+    switch (i % 4) {
+      case 1: newColorArr.push(newColor.r);
+      case 2: newColorArr.push(newColor.g);
+      case 3: newColorArr.push(newColor.b);
+      case 0: newColorArr.push(newColor.a);
+    }
+  }
+  colors = new Float32Array(colors.slice(0, 23).push(newColorArr));
+}
+
+let canv = document.getElementById('theCanvas');
+canv.addEventListener('click', event => {
+  let x = event.pageX - canv.offsetLeft;
+  let y = canv.clientHeight - event.pageY;
+  console.log(`x: ${x}, y: ${y}`);
+  if((80 <= x <= 320) && (80 <= y <= 320)) {
+    updateColor(findRGB(x - 80, y - 80, 240, 240, colorCorners));
+  }
+});
