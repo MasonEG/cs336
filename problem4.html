@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<head>
+    <title>problem 4</title>
+</head>
+<body>
+    <div align="center">
+        <canvas id="theCanvas" width="800" height="400">use a browser that supports canvas</canvas>
+    </div>
+
+    <script id="vertexShader" type="x-shader/x-vertex">
+    attribute vec4 a_Position;
+    attribute vec4 a_Color;
+    varying vec4 color;
+    void main() {
+        color = a_Color;
+        gl_Position = a_Position;
+    }
+    </script>
+
+    <script id="fragmentShader" type="x-shader/x-fragment">
+        precision mediump float;
+        varying vec4 color;
+        void main() {
+            gl_FragColor = color;
+        }
+    </script>
+
+    <script src="cs336util.js"></script>
+    <script src="color_interpolator.js"></script>
+
+</body>
