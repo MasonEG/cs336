@@ -160,24 +160,33 @@ function main() {
 }
 
 function updateColor(newColor) {
-  for(let i = 0; i < 25)
-  let newColorArr = []
-  for(let i = 1; i < 25; i++) {
+  
+  let newColorArr = [];
+
+  // for(let i = 0; i < 23; i++) {
+  //   newColorArr.push(colors[i]);
+  // }
+
+  for(let i = 24; i < 48; i++) {
     switch (i % 4) {
-      case 1: newColorArr.push(newColor.r);
-      case 2: newColorArr.push(newColor.g);
-      case 3: newColorArr.push(newColor.b);
-      case 0: newColorArr.push(newColor.a);
+      case 0: colors[i] = 1.0;
+      case 1: colors[i] = newColor.r;
+      case 2: colors[i] = newColor.g;
+      case 3: colors[i] = newColor.b;
     }
   }
-  colors = new Float32Array(colors.slice(0, 23).push(newColorArr));
+  colors = new Float32Array(colors);
+  colorbuffer = createAndLoadBuffer(colors);
+  console.log(`${newColor.r}, ${newColor.g}, ${newColor.b}`);
+  console.log(`${colors[33]}, ${colors[34]}, ${colors[35]}, ${colors[36]}`);
 }
 
 let canv = document.getElementById('theCanvas');
 canv.addEventListener('click', event => {
   let x = event.pageX - canv.offsetLeft;
   let y = canv.clientHeight - event.pageY;
-  console.log(`x: ${x}, y: ${y}`);
+  let RGB = findRGB(x - 80, y - 80, 240, 240, colorCorners);
+  console.log(`x: ${x}, y: ${y}, r: ${RGB.r}, g: ${RGB.g}, b: ${RGB.b}, a: ${RGB.a}`);
   if((80 <= x <= 320) && (80 <= y <= 320)) {
     updateColor(findRGB(x - 80, y - 80, 240, 240, colorCorners));
   }
